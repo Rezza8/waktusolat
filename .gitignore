@@ -1,0 +1,41 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Local configuration (contains SDK paths / machine-specific settings)
+local.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+captures/
+.navigation/
+.externalNativeBuild/
+.cxx/
+
+# Build output
+*.apk
+*.aab
+*.ap_
+*.dex
+*.class
+output.json
+
+# Keystores & signing
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+
+# Logs & temp files
+*.log
+*.hprof
+.DS_Store
+Thumbs.db
+
+# Generated files
+bin/
+gen/
+out/
+release/

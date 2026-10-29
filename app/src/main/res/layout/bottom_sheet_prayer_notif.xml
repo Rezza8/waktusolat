@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <Switch
+        android:id="@+id/switch_prayer_notif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pemberitahuan"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp">
+
+        <ImageView
+            android:id="@+id/iv_mute_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="8dp"
+            android:src="@android:drawable/ic_lock_silent_mode_off"
+            android:tint="#FFFFFF" />
+
+        <Switch
+            android:id="@+id/switch_prayer_mute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Mute Azan"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="12dp"
+        android:background="#4DFFFFFF" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jenis Azan"
+        android:textSize="14sp"
+        android:textColor="#FFFFFF"
+        android:alpha="0.7" />
+
+    <RadioGroup
+        android:id="@+id/rg_azan_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rb_short"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pendek"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/rb_long"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Full (Mekah)"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+
+        <RadioButton
+            android:id="@+id/rb_custom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilihan Sendiri"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_pick_sound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Pilih bunyi"
+        android:visibility="gone" />
+</LinearLayout>

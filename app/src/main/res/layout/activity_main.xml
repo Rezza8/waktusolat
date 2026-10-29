@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:layout_gravity="top">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/mosque_pink"
+            android:alpha="0.6"
+            android:scaleType="centerCrop"
+            android:contentDescription="@null" />
+
+        <View
+            android:id="@+id/fade_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom" />
+    </FrameLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="?attr/actionBarSize" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:menu="@menu/menu_bottom_nav"
+        app:labelVisibilityMode="labeled"
+        app:itemTextAppearanceActive="@style/TextAppearance.BottomNav"
+        app:itemTextAppearanceInactive="@style/TextAppearance.BottomNav" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_waktu_solat"
+        android:icon="@drawable/ic_nav_home"
+        android:title="Waktu Solat" />
+    <item
+        android:id="@+id/nav_juz_amma"
+        android:icon="@drawable/ic_nav_juz"
+        android:title="Juz Amma" />
+    <item
+        android:id="@+id/nav_arah_kiblat"
+        android:icon="@drawable/ic_nav_qibla"
+        android:title="Arah Kiblat" />
+    <item
+        android:id="@+id/nav_tetapan"
+        android:icon="@drawable/ic_nav_settings"
+        android:title="Tetapan" />
+</menu>

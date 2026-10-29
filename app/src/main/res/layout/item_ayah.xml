@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginTop="6dp">
+
+    <TextView
+        android:id="@+id/tv_ayah_arabic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textSize="24sp"
+        android:textDirection="rtl"
+        android:layout_marginBottom="4dp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="14sp"
+        app:autoSizeMaxTextSize="24sp"
+        app:autoSizeStepGranularity="1sp" />
+
+    <TextView
+        android:id="@+id/tv_ayah_rumi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:textSize="13sp"
+        android:layout_marginBottom="8dp"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="9sp"
+        app:autoSizeMaxTextSize="13sp"
+        app:autoSizeStepGranularity="1sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_ayah_number"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/bg_surah_number"
+            android:gravity="center"
+            android:textSize="10sp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="5sp"
+            app:autoSizeMaxTextSize="10sp"
+            app:autoSizeStepGranularity="1sp" />
+
+        <TextView
+            android:id="@+id/tv_ayah_malay"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="14sp"
+            android:layout_marginStart="12dp"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="9sp"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeStepGranularity="1sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.WaktuSolat" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/green_medium</item>
+        <item name="colorPrimaryDark">@color/green_dark</item>
+        <item name="colorAccent">@color/green_accent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="TextAppearance.BottomNav" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textSize">11sp</item>
+    </style>
+</resources>

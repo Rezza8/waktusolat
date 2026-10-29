@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="12dp"
+    android:background="?attr/selectableItemBackground">
+
+    <ImageView
+        android:id="@+id/iv_prayer_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="12dp" />
+
+    <TextView
+        android:id="@+id/tv_prayer_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Subuh"
+        android:textSize="16sp"
+        android:maxLines="1"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMinTextSize="11sp"
+        app:autoSizeMaxTextSize="16sp"
+        app:autoSizeStepGranularity="1sp" />
+
+    <TextView
+        android:id="@+id/tv_prayer_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5:53 AM"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginEnd="12dp" />
+
+    <ImageView
+        android:id="@+id/iv_bell"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="2dp" />
+</LinearLayout>

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Location Header -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_menu_mylocation"
+                    android:tint="#006400"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_location_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Kuala Lumpur"
+                        android:textColor="#006400"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="10sp"
+                        app:autoSizeMaxTextSize="16sp"
+                        app:autoSizeStepGranularity="1sp" />
+
+                    <TextView
+                        android:id="@+id/tv_location_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Malaysia"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@android:drawable/ic_menu_compass"
+                    android:tint="#006400" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Qibla Degree Display -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tv_qibla_degree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="292°"
+                android:textColor="#006400"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Arah Kiblat"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- Compass View -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_compass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="#FFFFFF">
+
+            <com.example.waktusolat.CompassView
+                android:id="@+id/compass_view"
+                android:layout_width="match_parent"
+                android:layout_height="300dp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/tv_compass_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cari arah kiblat"
+                android:textColor="#006400"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_compass_degrees"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textColor="#666666"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- Calibration Info -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="16dp">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@android:drawable/ic_menu_compass"
+                android:tint="#006400" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kalibrasi Kompas"
+                android:textColor="#006400"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gerakkan telefon anda dalam bentuk angka 8 sehingga kompas stabil"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:maxLines="2"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMinTextSize="9sp"
+                app:autoSizeMaxTextSize="12sp"
+                app:autoSizeStepGranularity="1sp" />
+        </LinearLayout>
+
+        <!-- Bottom Cards -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_mylocation"
+                        android:tint="#006400" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Jarak ke Kaabah"
+                        android:textColor="#666666"
+                        android:textSize="10sp"
+                        android:layout_marginTop="4dp"
+                        android:maxLines="1"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="7sp"
+                        app:autoSizeMaxTextSize="10sp"
+                        app:autoSizeStepGranularity="1sp" />
+
+                    <TextView
+                        android:id="@+id/tv_distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="-- km"
+                        android:textColor="#006400"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="2dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_today"
+                        android:tint="#006400" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tarikh"
+                        android:textColor="#666666"
+                        android:textSize="10sp"
+                        android:layout_marginTop="4dp"
+                        android:maxLines="1"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="7sp"
+                        app:autoSizeMaxTextSize="10sp"
+                        app:autoSizeStepGranularity="1sp" />
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--"
+                        android:textColor="#006400"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="9sp"
+                        app:autoSizeMaxTextSize="14sp"
+                        app:autoSizeStepGranularity="1sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_recent_history"
+                        android:tint="#006400" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Waktu"
+                        android:textColor="#666666"
+                        android:textSize="10sp"
+                        android:layout_marginTop="4dp"
+                        android:maxLines="1"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="7sp"
+                        app:autoSizeMaxTextSize="10sp"
+                        app:autoSizeStepGranularity="1sp" />
+
+                    <TextView
+                        android:id="@+id/tv_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="--:--"
+                        android:textColor="#006400"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="2dp"
+                        app:autoSizeTextType="uniform"
+                        app:autoSizeMinTextSize="9sp"
+                        app:autoSizeMaxTextSize="14sp"
+                        app:autoSizeStepGranularity="1sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
