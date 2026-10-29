@@ -2,6 +2,14 @@
 
 An Android app for Malaysian prayer times (waktu solat), qibla direction, and Quran reading — with azan alarms and a home-screen widget.
 
+## Download
+
+Grab the latest signed APK from [Releases](https://github.com/Rezza8/waktusolat/releases/latest).
+
+- Requires Android 7.0 (API 24) or newer
+- Signed with the project release key — verify the signature before installing if you build it yourself
+
+
 ## Features
 
 - **Prayer times** — daily times for Imsak, Subuh, Syuruk, Zohor, Asar, Maghrib and Isyak, with the current/next prayer highlighted

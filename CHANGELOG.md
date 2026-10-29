@@ -47,11 +47,20 @@ First public release of Waktu Solat — a prayer-times companion for Malaysia, b
 - `compileSdk` / `targetSdk` 34, `minSdk` 24 (Android 7.0 and above)
 - Retrofit + Gson, Kotlin coroutines, ViewBinding, ViewPager2, Material Components
 
+### Installation
+
+1. Download `WaktuSolat-v1.0.0.apk` from the assets below
+2. Open the file and allow installation from unknown sources if prompted
+3. Grant location and notification permissions on first launch, then allow **Alarms & reminders**
+4. Open **Tetapan → Lindungi Aplikasi** and follow the steps so your phone's battery optimiser does not delay azan alarms
+
+The APK is signed with the project release key (SHA-256 `d9:c7:c3:04:32:50:48:71:b4:31:ad:3c:3e:e2:8c:9e:fa:39:02:90:9c:67:b5:5a:d9:8b:60:1c:14:8d:1e:e2`), targets Android 14 and runs on Android 7.0 and above.
+
 ### Known limitations
 
 - An internet connection is required for the first load and for refreshing the month; cached times cover short outages
 - Prayer times follow JAKIM zones — locations outside Malaysia are not supported yet
-- This release ships source code only; no signed APK is attached
+- Distributed outside Google Play, so updates must be installed manually
 - Very aggressive battery savers (Xiaomi, Oppo, Vivo and similar) can still delay alarms — the app includes a *Lindungi Aplikasi* guide for whitelisting it
 
 [1.0.0]: https://github.com/Rezza8/waktusolat/releases/tag/v1.0.0
