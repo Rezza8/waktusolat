@@ -1,9 +1,7 @@
 package com.example.waktusolat
 
 import android.animation.ObjectAnimator
-import android.graphics.Color
-import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
+import android.graphics.drawable.ClipDrawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
@@ -64,8 +62,6 @@ class WaktuSolatFragment : Fragment() {
 
         binding.rvPrayerTimes.layoutManager = LinearLayoutManager(requireContext())
         binding.rvPrayerTimes.adapter = adapter
-
-        binding.progressNext.progressDrawable = createProgressDrawable(ThemeConfig.themes[0].accent)
 
         binding.tvCountry.text = viewModel.getCountryName()
 
@@ -134,27 +130,10 @@ class WaktuSolatFragment : Fragment() {
         val currentDrawable = binding.progressNext.progressDrawable
         if (currentDrawable is LayerDrawable && currentDrawable.numberOfLayers >= 2) {
             val progressLayer = currentDrawable.getDrawable(1)
-            if (progressLayer is GradientDrawable) {
-                progressLayer.setColor(accentColor)
+            val progressShape = (progressLayer as? ClipDrawable)?.drawable ?: progressLayer
+            if (progressShape is GradientDrawable) {
+                progressShape.setColor(accentColor)
             }
-        }
-    }
-
-    private fun createProgressDrawable(color: Int): Drawable {
-        val density = resources.displayMetrics.density
-        val background = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = 2f * density
-            setColor(Color.argb(51, 255, 255, 255))
-        }
-        val progress = GradientDrawable().apply {
-            shape = GradientDrawable.RECTANGLE
-            cornerRadius = 2f * density
-            setColor(color)
-        }
-        return LayerDrawable(arrayOf(background, progress)).apply {
-            setId(0, android.R.id.background)
-            setId(1, android.R.id.progress)
         }
     }
 

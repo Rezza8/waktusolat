@@ -223,7 +223,9 @@
                     android:layout_height="4dp"
                     android:layout_marginTop="8dp"
                     android:max="100"
-                    android:progressDrawable="@drawable/progress_green" />
+                    android:progressBackgroundTint="@null"
+                    android:progressDrawable="@drawable/progress_green"
+                    android:progressTint="@null" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
