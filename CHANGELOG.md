@@ -7,8 +7,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ## [Unreleased]
 
 ### Added
-- Main screen redesigned: **Assalamu'alaikum** greeting, centred *Waktu Solat / Malaysia* header and a large next-azan countdown card with the prayer name, azan time and progress bar
-- Prayer rows compacted and the screen made scroll-safe, so all seven waktu (Imsak through Isyak) fit without being clipped
+- Main screen redesigned: large **Assalamu'alaikum** greeting, centred *Waktu Solat / Malaysia* header and a large next-azan countdown card with the prayer name, azan time and progress bar
+- Prayer rows compacted and the prayer card stretched to fill the remaining screen height; the screen stays scroll-safe, so all seven waktu (Imsak through Isyak) fit without being clipped
 
 ## [1.1.0] - 2026-11-11
 
