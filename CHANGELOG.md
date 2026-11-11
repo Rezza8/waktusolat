@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-11
+
 ### Added
 - Azan volume slider in *Tetapan* (0–100 %, with a **Uji Azan** preview button); the setting scales the azan independently of the phone's alarm volume
 - Home-screen widget now shows a live countdown to the next azan in its header (`date · Hijri · countdown · zone code`), and highlights the next azan's column in the active theme's accent colour
