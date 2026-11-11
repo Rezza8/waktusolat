@@ -1,5 +1,6 @@
 package com.example.waktusolat
 
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
@@ -22,6 +23,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SurahActivity : AppCompatActivity() {
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(FontSizeConfig.wrap(newBase))
+    }
 
     companion object {
         const val EXTRA_SURAH = "extra_surah"

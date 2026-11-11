@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.waktusolat.R
 import com.example.waktusolat.api.JuzAmmaSurah
+import com.google.android.material.card.MaterialCardView
 
 class SurahAdapter(
     private val onItemClick: (JuzAmmaSurah) -> Unit
@@ -19,6 +20,7 @@ class SurahAdapter(
     var primaryTextColor: Int = Color.WHITE
     var secondaryTextColor: Int = 0xFFA5D6A7.toInt()
     var badgeColor: Int = 0xFF43A047.toInt()
+    var cardColor: Int = 0x4D000000
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -27,7 +29,7 @@ class SurahAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position), onItemClick, primaryTextColor, secondaryTextColor, badgeColor)
+        holder.bind(getItem(position), onItemClick, primaryTextColor, secondaryTextColor, badgeColor, cardColor)
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -42,8 +44,10 @@ class SurahAdapter(
             onItemClick: (JuzAmmaSurah) -> Unit,
             primaryColor: Int,
             secondaryColor: Int,
-            badgeColor: Int
+            badgeColor: Int,
+            cardColor: Int
         ) {
+            (itemView as MaterialCardView).setCardBackgroundColor(cardColor)
             tvNumber.text = surah.number.toString()
             tvNumber.setTextColor(Color.WHITE)
             val bg = tvNumber.background?.mutate() as? GradientDrawable

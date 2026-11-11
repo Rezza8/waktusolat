@@ -18,7 +18,8 @@ object ThemeConfig {
         ThemeColors("Forest", 0xFF84fab0.toInt(), 0xFF4D000000.toInt(), 0xFF10B981.toInt(), 0xFF34D399.toInt(), 0xFF6EE7B7.toInt(), intArrayOf(0xFF84fab0.toInt(), 0xFF8fd3f4.toInt())),
         ThemeColors("Ember", 0xFFfa709a.toInt(), 0xFF4D000000.toInt(), 0xFFF97316.toInt(), 0xFFFB923C.toInt(), 0xFFFDBA74.toInt(), intArrayOf(0xFFfa709a.toInt(), 0xFFfee140.toInt())),
         ThemeColors("Crimson", 0xFFff9a9e.toInt(), 0xFF4D000000.toInt(), 0xFFEF4444.toInt(), 0xFFF87171.toInt(), 0xFFFCA5A5.toInt(), intArrayOf(0xFFff9a9e.toInt(), 0xFFfecfef.toInt())),
-        ThemeColors("Pelangi", 0xFF1A0033.toInt(), 0xFF4D000000.toInt(), 0xFFFFC107.toInt(), 0xFFFFD54F.toInt(), 0xFFFF6F00.toInt())
+        ThemeColors("Pelangi", 0xFF1A0033.toInt(), 0xFF4D000000.toInt(), 0xFFFFC107.toInt(), 0xFFFFD54F.toInt(), 0xFFFF6F00.toInt()),
+        ThemeColors("Dark", 0xFF0B0B0B.toInt(), 0xFF121212.toInt(), 0xFF34D399.toInt(), 0xFF6EE7B7.toInt(), 0xFF34D399.toInt(), intArrayOf(0xFF000000.toInt(), 0xFF1C1C1C.toInt()))
     )
 
     val rainbowGradient = intArrayOf(
@@ -30,6 +31,7 @@ object ThemeConfig {
     const val FAB_ALPHA = 0x66
 
     const val RAINBOW_INDEX = 6
+    const val DARK_INDEX = 7
     const val PREFS_KEY = "theme_prefs"
     const val PREFS_THEME_INDEX = "theme_index"
 }

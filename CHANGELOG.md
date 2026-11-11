@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 - Main screen redesigned: large **Assalamu'alaikum** greeting, centred *Waktu Solat / Malaysia* header and a large next-azan countdown card with the prayer name, azan time and progress bar
 - Prayer rows compacted and the prayer card stretched to fill the remaining screen height; the screen stays scroll-safe, so all seven waktu (Imsak through Isyak) fit without being clipped
+- **Saiz Tulisan** setting in Tetapan with five steps (80%–130%); the chosen scale applies across the whole app and is remembered
+- New **Dark** theme with a near-black background and emerald accent, added to the Tema rotation
 
 ### Changed
 - Prayer times and zones now load from the on-device cache first and refresh in the background, so returning users see the schedule immediately; duplicate startup requests were removed

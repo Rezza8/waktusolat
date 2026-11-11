@@ -99,7 +99,7 @@ class WaktuSolatFragment : Fragment() {
     private fun applyThemeColors(themeIndex: Int) {
         val primaryColor = ThemeHelper.getPrimaryTextColor(themeIndex)
         val secondaryColor = ThemeHelper.getSecondaryTextColor(themeIndex)
-        val cardBg = 0x4D000000.toInt()
+        val cardBg = ThemeHelper.getCardBackgroundColor(themeIndex)
         val accentColor = ThemeHelper.getAccentColor(themeIndex)
 
         binding.tvAppTitle.setTextColor(primaryColor)

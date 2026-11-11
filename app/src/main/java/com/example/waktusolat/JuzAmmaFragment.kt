@@ -98,6 +98,7 @@ class JuzAmmaFragment : Fragment() {
         surahAdapter.primaryTextColor = primaryColor
         surahAdapter.secondaryTextColor = secondaryColor
         surahAdapter.badgeColor = if (isPastel) theme.accent else 0xFF43A047.toInt()
+        surahAdapter.cardColor = ThemeHelper.getCardBackgroundColor(index)
         surahAdapter.notifyItemRangeChanged(0, surahAdapter.itemCount)
     }
 

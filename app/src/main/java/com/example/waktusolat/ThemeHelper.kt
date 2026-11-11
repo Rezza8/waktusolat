@@ -11,7 +11,8 @@ object ThemeHelper {
 
     fun getTertiaryTextColor(themeIndex: Int): Int = Color.argb(120, 255, 255, 255)
 
-    fun getCardBackgroundColor(themeIndex: Int): Int = 0x4D000000.toInt()
+    fun getCardBackgroundColor(themeIndex: Int): Int =
+        if (themeIndex == ThemeConfig.DARK_INDEX) 0x14FFFFFF else 0x4D000000
 
     fun getDividerColor(themeIndex: Int): Int = 0x4DFFFFFF.toInt()
 

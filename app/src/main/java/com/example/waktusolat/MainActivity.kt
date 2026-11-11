@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlarmManager
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -29,6 +30,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(FontSizeConfig.wrap(newBase))
+    }
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var viewModel: SharedViewModel

@@ -17,6 +17,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.waktusolat.databinding.FragmentTetapanBinding
+import com.google.android.material.slider.Slider
+import kotlin.math.roundToInt
 
 class TetapanFragment : Fragment() {
 
@@ -25,6 +27,10 @@ class TetapanFragment : Fragment() {
 
     private var currentThemeIndex = 0
     private lateinit var themePrefs: android.content.SharedPreferences
+
+    private var appliedFontIndex = FontSizeConfig.DEFAULT_INDEX
+    private var isTrackingFontSize = false
+    private var fontRecreateRunnable: Runnable? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentTetapanBinding.inflate(inflater, container, false)
@@ -38,6 +44,7 @@ class TetapanFragment : Fragment() {
         currentThemeIndex = themePrefs.getInt(ThemeConfig.PREFS_THEME_INDEX, 0)
 
         setupThemeRotateButton()
+        setupFontSize()
         setupAzanVolume()
 
         val viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
@@ -54,6 +61,8 @@ class TetapanFragment : Fragment() {
 
         binding.tvThemeTitle.setTextColor(primaryColor)
         binding.btnRotateTheme.setTextColor(Color.WHITE)
+        binding.tvFontSizeTitle.setTextColor(primaryColor)
+        binding.tvFontSizeValue.setTextColor(secondaryColor)
         binding.tvVolumeTitle.setTextColor(primaryColor)
         binding.tvAzanVolumeValue.setTextColor(secondaryColor)
         binding.tvVolumeMuted.setTextColor(secondaryColor)
@@ -67,6 +76,13 @@ class TetapanFragment : Fragment() {
         binding.dividerFooter.setBackgroundColor(dividerColor)
 
         val accentTint = ColorStateList.valueOf(accentColor)
+        binding.sliderFontSize.trackTintList = accentTint
+        binding.sliderFontSize.trackInactiveTintList = ColorStateList.valueOf(0x66FFFFFF)
+        binding.sliderFontSize.thumbTintList = accentTint
+        binding.sliderFontSize.haloTintList = ColorStateList.valueOf((accentColor and 0x00FFFFFF) or 0x33000000)
+        binding.sliderFontSize.tickTintList = accentTint
+        binding.sliderFontSize.tickInactiveTintList = ColorStateList.valueOf(0x66FFFFFF)
+
         binding.sliderAzanVolume.trackTintList = accentTint
         binding.sliderAzanVolume.trackInactiveTintList = ColorStateList.valueOf(0x66FFFFFF)
         binding.sliderAzanVolume.thumbTintList = accentTint
@@ -123,6 +139,58 @@ class TetapanFragment : Fragment() {
             value >= 100 -> "100%"
             else -> "$value%"
         }
+    }
+
+    private fun setupFontSize() {
+        val prefs = requireContext().getSharedPreferences(
+            FontSizeConfig.PREFS_NAME,
+            android.content.Context.MODE_PRIVATE
+        )
+        appliedFontIndex = FontSizeConfig.savedIndex(requireContext())
+        binding.sliderFontSize.value = appliedFontIndex.toFloat()
+        updateFontSizeLabel(appliedFontIndex)
+
+        binding.sliderFontSize.addOnChangeListener { _, value, fromUser ->
+            if (!fromUser) return@addOnChangeListener
+            val index = value.roundToInt().coerceIn(0, FontSizeConfig.scales.size - 1)
+            prefs.edit().putInt(FontSizeConfig.PREF_INDEX, index).apply()
+            updateFontSizeLabel(index)
+            if (!isTrackingFontSize) scheduleFontApply(400)
+        }
+        binding.sliderFontSize.addOnSliderTouchListener(object : Slider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: Slider) {
+                isTrackingFontSize = true
+            }
+
+            override fun onStopTrackingTouch(slider: Slider) {
+                isTrackingFontSize = false
+                applyFontSizeIfChanged(slider.value.roundToInt())
+            }
+        })
+    }
+
+    private fun updateFontSizeLabel(index: Int) {
+        binding.tvFontSizeValue.text = FontSizeConfig.label(index)
+    }
+
+    private fun scheduleFontApply(delayMs: Long) {
+        fontRecreateRunnable?.let { binding.root.removeCallbacks(it) }
+        val runnable = Runnable {
+            fontRecreateRunnable = null
+            if (!isAdded || view == null) return@Runnable
+            applyFontSizeIfChanged(binding.sliderFontSize.value.roundToInt())
+        }
+        fontRecreateRunnable = runnable
+        binding.root.postDelayed(runnable, delayMs)
+    }
+
+    private fun applyFontSizeIfChanged(index: Int) {
+        val safe = index.coerceIn(0, FontSizeConfig.scales.size - 1)
+        if (safe == appliedFontIndex) return
+        appliedFontIndex = safe
+        fontRecreateRunnable?.let { binding.root.removeCallbacks(it) }
+        fontRecreateRunnable = null
+        activity?.recreate()
     }
 
     private var previewPlayer: MediaPlayer? = null
@@ -282,6 +350,8 @@ class TetapanFragment : Fragment() {
 
     override fun onDestroyView() {
         stopAzanPreview()
+        fontRecreateRunnable?.let { binding.root.removeCallbacks(it) }
+        fontRecreateRunnable = null
         super.onDestroyView()
         _binding = null
     }
