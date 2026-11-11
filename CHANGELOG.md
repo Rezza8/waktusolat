@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 - Azan volume slider in *Tetapan* (0–100 %, with a **Uji Azan** preview button); the setting scales the azan independently of the phone's alarm volume
+- Home-screen widget now shows a live countdown to the next azan in its header (`date · Hijri · countdown · zone code`), and highlights the next azan's column in the active theme's accent colour
+- The widget reads the cached schedule instead of hitting the network on every update, and re-renders itself after each azan, at boot, after an app update, and after a clock or timezone change
 
 ### Fixed
 - Long azan playback could not be stopped: the player was never assigned to the service field, so the notification's *Tutup* action and service teardown had no effect

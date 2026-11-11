@@ -70,6 +70,8 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
                     .putInt(PREFS_CACHED_TODAY, today)
                     .putString(PREFS_CACHED_ZONE, zoneCode)
                     .apply()
+
+                PrayerWidgetProvider.requestUpdate(getApplication())
             } catch (_: Exception) { }
         }
     }
