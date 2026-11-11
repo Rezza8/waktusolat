@@ -282,7 +282,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadPrayerTimes() {
-        viewModel.selectedZone.value?.let { viewModel.loadPrayerTimes(it.jakimCode) }
+        // Settings changes need a fresh schedule so alarms pick up the new sounds.
+        viewModel.selectedZone.value?.let { viewModel.loadPrayerTimes(it.jakimCode, force = true) }
     }
 
     fun launchNextCustomPicker() {

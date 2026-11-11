@@ -1,6 +1,7 @@
 package com.example.waktusolat
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,14 +9,26 @@ import androidx.lifecycle.viewModelScope
 import com.example.waktusolat.api.PrayerApiService
 import com.example.waktusolat.api.PrayerTimeV2
 import com.example.waktusolat.api.Zone
+import com.google.gson.Gson
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 import java.util.Locale
+import java.util.TimeZone
 
 class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
     private val api = PrayerApiService.create()
+    private val appPrefs = application.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+    private val gson = Gson()
+    private val tz: TimeZone = TimeZone.getTimeZone("Asia/Kuala_Lumpur")
+
+    private var prayerJob: Job? = null
+    private var requestedZone: String? = null
+    private var lastLoadedZone: String? = null
 
     private val _zones = MutableLiveData<List<Zone>>()
     val zones: LiveData<List<Zone>> = _zones
@@ -35,8 +48,16 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     private var cachedVerseDay = -1
 
     init {
-        val prefs = application.getSharedPreferences(ThemeConfig.PREFS_KEY, android.content.Context.MODE_PRIVATE)
+        val prefs = application.getSharedPreferences(ThemeConfig.PREFS_KEY, Context.MODE_PRIVATE)
         _currentThemeIndex.value = prefs.getInt(ThemeConfig.PREFS_THEME_INDEX, 0)
+
+        restoreCachedZones()
+        restoreCachedPrayerTimes()
+
+        // Don't wait for the zones call before fetching today's times.
+        if (_selectedZone.value == null) {
+            appPrefs.getString("zone_code", null)?.let { loadPrayerTimes(it) }
+        }
         loadZones()
     }
 
@@ -44,8 +65,11 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             try {
                 val result = withContext(Dispatchers.IO) { api.getZones() }
-                _zones.value = result
-                restoreSavedZone(result)
+                if (result.isNotEmpty()) {
+                    appPrefs.edit().putString(PREFS_CACHED_ZONES, gson.toJson(result)).apply()
+                    _zones.value = result
+                    restoreSavedZone(result)
+                }
             } catch (_: Exception) { }
         }
     }
@@ -54,32 +78,50 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         _currentThemeIndex.value = index
     }
 
-    fun loadPrayerTimes(zoneCode: String) {
-        viewModelScope.launch {
+    fun loadPrayerTimes(zoneCode: String, force: Boolean = false) {
+        if (!force) {
+            if (prayerJob?.isActive == true && requestedZone == zoneCode) return
+
+            if (zoneCode == lastLoadedZone && _todayPrayer.value != null) {
+                requestedZone = zoneCode
+                return
+            }
+        }
+
+        // A request for another zone (or a forced refresh) supersedes the in-flight one.
+        if (prayerJob?.isActive == true) {
+            prayerJob?.cancel()
+        }
+
+        requestedZone = zoneCode
+        prayerJob = viewModelScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) { api.getPrayerTimesV2(zoneCode) }
-                val today = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_MONTH)
+                if (requestedZone != zoneCode) return@launch
+
+                val today = Calendar.getInstance(tz).get(Calendar.DAY_OF_MONTH)
                 _todayPrayer.value = response.prayers.find { it.day == today }
                 PrayerNotificationHelper.scheduleAlarms(getApplication(), response.prayers, today)
                 KeepAliveService.start(getApplication())
 
-                // Cache prayer times so KeepAliveService can re-schedule alarms on heartbeat
-                getApplication<Application>().getSharedPreferences("prefs", android.content.Context.MODE_PRIVATE)
-                    .edit()
-                    .putString(PREFS_CACHED_PRAYERS, com.google.gson.Gson().toJson(response.prayers))
+                // Cache the monthly schedule so the next launch can render instantly.
+                appPrefs.edit()
+                    .putString(PREFS_CACHED_PRAYERS, gson.toJson(response.prayers))
                     .putInt(PREFS_CACHED_TODAY, today)
                     .putString(PREFS_CACHED_ZONE, zoneCode)
                     .apply()
 
+                lastLoadedZone = zoneCode
                 PrayerWidgetProvider.requestUpdate(getApplication())
+            } catch (e: CancellationException) {
+                throw e
             } catch (_: Exception) { }
         }
     }
 
     fun setSelectedZone(zone: Zone) {
         _selectedZone.value = zone
-        getApplication<Application>().getSharedPreferences("prefs", android.content.Context.MODE_PRIVATE)
-            .edit()
+        appPrefs.edit()
             .putString("zone_code", zone.jakimCode)
             .putString("zone_display", zone.negeri)
             .apply()
@@ -87,19 +129,13 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun restoreSavedZone(allZones: List<Zone>) {
-        val prefs = getApplication<Application>().getSharedPreferences("prefs", android.content.Context.MODE_PRIVATE)
-        val saved = prefs.getString("zone_code", null)
-        var zone: Zone? = null
-        if (saved != null) {
-            zone = allZones.find { it.jakimCode == saved }
-        }
-        if (zone == null) {
-            zone = allZones.find { it.jakimCode == "SGR01" }
-        }
-        if (zone != null) {
-            setSelectedZone(zone)
-        }
-        _selectedZone.value?.let { loadPrayerTimes(it.jakimCode) }
+        if (_selectedZone.value != null) return
+
+        val saved = appPrefs.getString("zone_code", null)
+        val zone = (if (saved != null) allZones.find { it.jakimCode == saved } else null)
+            ?: allZones.find { it.jakimCode == DEFAULT_ZONE }
+            ?: return
+        setSelectedZone(zone)
     }
 
     fun getCountryName(): String {
@@ -109,7 +145,7 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun loadQuranVerse() {
-        val today = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_YEAR)
+        val today = Calendar.getInstance().get(Calendar.DAY_OF_YEAR)
         if (today == cachedVerseDay && _quranVerse.value != null) return
         cachedVerseDay = today
 
@@ -139,11 +175,44 @@ class SharedViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    private fun restoreCachedZones() {
+        val cached = appPrefs.getString(PREFS_CACHED_ZONES, null) ?: return
+        try {
+            val zones = gson.fromJson(cached, Array<Zone>::class.java)?.toList() ?: return
+            if (zones.isEmpty()) return
+            _zones.value = zones
+            restoreSavedZone(zones)
+        } catch (_: Exception) { }
+    }
+
+    private fun restoreCachedPrayerTimes() {
+        val savedZone = appPrefs.getString("zone_code", null) ?: return
+        val cachedZone = appPrefs.getString(PREFS_CACHED_ZONE, null) ?: return
+        if (savedZone != cachedZone) return
+
+        val cached = appPrefs.getString(PREFS_CACHED_PRAYERS, null) ?: return
+        try {
+            val prayers = gson.fromJson(cached, Array<PrayerTimeV2>::class.java)?.toList() ?: return
+            val now = Calendar.getInstance(tz)
+            val today = prayers.firstOrNull { sameDay(it.fajr, now) } ?: return
+            _todayPrayer.value = today
+        } catch (_: Exception) { }
+    }
+
+    private fun sameDay(epochSeconds: Long, reference: Calendar): Boolean {
+        val cal = Calendar.getInstance(tz).apply { timeInMillis = epochSeconds * 1000L }
+        return cal.get(Calendar.YEAR) == reference.get(Calendar.YEAR) &&
+            cal.get(Calendar.DAY_OF_YEAR) == reference.get(Calendar.DAY_OF_YEAR)
+    }
+
     data class QuranVerse(val text: String, val surah: Int, val ayah: Int, val surahName: String)
 
     companion object {
+        private const val DEFAULT_ZONE = "SGR01"
+
         const val PREFS_CACHED_PRAYERS = "cached_prayers_json"
         const val PREFS_CACHED_TODAY = "cached_today"
         const val PREFS_CACHED_ZONE = "cached_zone_code"
+        const val PREFS_CACHED_ZONES = "cached_zones_json"
     }
 }

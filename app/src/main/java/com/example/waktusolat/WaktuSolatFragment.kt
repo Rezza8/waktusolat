@@ -78,7 +78,9 @@ class WaktuSolatFragment : Fragment() {
         }
 
         viewModel.todayPrayer.observe(viewLifecycleOwner) { prayer ->
-            prayer?.let { updatePrayerList(it) }
+            if (prayer != null && prayer != todayPrayerForCountdown) {
+                updatePrayerList(prayer)
+            }
         }
 
         viewModel.quranVerse.observe(viewLifecycleOwner) { verse ->
@@ -205,6 +207,9 @@ class WaktuSolatFragment : Fragment() {
             prayer.isha to (prayer.fajr + 86400)
         )
 
+        var lastNextName: String? = null
+        var lastNextTime: String? = null
+
         fun update() {
             val now = System.currentTimeMillis() / 1000
             // After Isyak the countdown rolls over to tomorrow's Subuh.
@@ -214,9 +219,16 @@ class WaktuSolatFragment : Fragment() {
             val h = diff / 3600
             val m = (diff % 3600) / 60
             val s = diff % 60
-            binding.tvNextName.text = next.first
+            if (next.first != lastNextName) {
+                binding.tvNextName.text = next.first
+                lastNextName = next.first
+            }
             binding.tvNextCountdown.text = String.format(Locale.US, "%d:%02d:%02d", h, m, s)
-            binding.tvNextTime.text = formatEpoch(next.second)
+            val nextTime = formatEpoch(next.second)
+            if (nextTime != lastNextTime) {
+                binding.tvNextTime.text = nextTime
+                lastNextTime = nextTime
+            }
 
             val currentSegment = progressSegments.firstOrNull { now >= it.first && now < it.second }
             if (currentSegment != null) {

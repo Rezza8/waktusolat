@@ -112,7 +112,9 @@ class TetapanFragment : Fragment() {
             updateAzanVolumeLabel(rounded)
         }
 
-        binding.btnTestAzan.setOnClickListener { playAzanPreview() }
+        binding.btnTestAzan.setOnClickListener {
+            if (previewPlayer != null) stopAzanPreview() else playAzanPreview()
+        }
     }
 
     private fun updateAzanVolumeLabel(value: Int) {
@@ -147,6 +149,7 @@ class TetapanFragment : Fragment() {
             player.setOnErrorListener { _, _, _ -> stopAzanPreview(); true }
             previewPlayer = player
             player.start()
+            binding.btnTestAzan.text = "Hentikan Azan"
         } catch (_: Exception) {
             stopAzanPreview()
         }
@@ -161,6 +164,7 @@ class TetapanFragment : Fragment() {
             player.release()
         }
         previewPlayer = null
+        _binding?.btnTestAzan?.text = "Uji Azan"
     }
 
     private fun showProtectAppDialog() {
