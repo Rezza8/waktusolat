@@ -112,18 +112,22 @@ class WaktuSolatFragment : Fragment() {
         binding.tvCountry.setShadowLayer(6f, 0f, 0f, accentColor)
         binding.tvCountry.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
 
+        binding.tvGreeting.setTextColor(secondaryColor)
+
         binding.tvDate.setTextColor(primaryColor)
         binding.tvHijri.setTextColor(secondaryColor)
 
         binding.cardDate.setCardBackgroundColor(cardBg)
         binding.cardZone.setCardBackgroundColor(cardBg)
         binding.cardPrayerList.setCardBackgroundColor(cardBg)
-        binding.cardNext.setCardBackgroundColor(cardBg)
+        binding.cardTimer.setCardBackgroundColor(cardBg)
+        binding.cardVerse.setCardBackgroundColor(cardBg)
 
         adapter.themeIndex = themeIndex
 
-        binding.tvNextName.setTextColor(primaryColor)
-        binding.tvNextCountdown.setTextColor(primaryColor)
+        binding.tvNextName.setTextColor(accentColor)
+        binding.tvNextCountdown.setTextColor(accentColor)
+        binding.tvNextTime.setTextColor(secondaryColor)
         binding.tvQuranText.setTextColor(primaryColor)
         binding.tvQuranRef.setTextColor(secondaryColor)
 
@@ -224,18 +228,16 @@ class WaktuSolatFragment : Fragment() {
 
         fun update() {
             val now = System.currentTimeMillis() / 1000
+            // After Isyak the countdown rolls over to tomorrow's Subuh.
             val next = times.firstOrNull { it.second > now }
-            if (next != null) {
-                val diff = next.second - now
-                val h = diff / 3600
-                val m = (diff % 3600) / 60
-                val s = diff % 60
-                binding.tvNextName.text = next.first
-                binding.tvNextCountdown.text = "${h}j ${m}m ${s}s lagi"
-            } else {
-                binding.tvNextName.text = "Subuh"
-                binding.tvNextCountdown.text = "Esok"
-            }
+                ?: ("Subuh" to (prayer.fajr + 86400))
+            val diff = (next.second - now).coerceAtLeast(0)
+            val h = diff / 3600
+            val m = (diff % 3600) / 60
+            val s = diff % 60
+            binding.tvNextName.text = next.first
+            binding.tvNextCountdown.text = String.format(Locale.US, "%d:%02d:%02d", h, m, s)
+            binding.tvNextTime.text = formatEpoch(next.second)
 
             val currentSegment = progressSegments.firstOrNull { now >= it.first && now < it.second }
             if (currentSegment != null) {

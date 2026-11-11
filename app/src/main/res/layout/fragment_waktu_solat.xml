@@ -1,58 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:fillViewport="true"
+    android:overScrollMode="never"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="16dp">
 
-        <TextView
-            android:id="@+id/tv_app_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Waktu Solat"
-            android:textColor="#FFFFFF"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_greeting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.75"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="Assalamu'alaikum"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_country"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Malaysia 🇲🇾  Sabah 🏴"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:alpha="0.7"
-            android:maxLines="1"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeMaxTextSize="16sp"
-            app:autoSizeStepGranularity="1sp" />
+            <TextView
+                android:id="@+id/tv_app_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Waktu Solat"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_country"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="Malaysia"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                app:autoSizeMaxTextSize="14sp"
+                app:autoSizeMinTextSize="10sp"
+                app:autoSizeStepGranularity="1sp"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="#4D000000"
             app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#4D000000">
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/tv_date"
@@ -60,16 +82,16 @@
                     android:layout_height="wrap_content"
                     android:text="Sabtu, 18 Mei 2024"
                     android:textColor="#FFFFFF"
-                    android:textSize="16sp" />
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_hijri"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:alpha="0.7"
                     android:text="9 Zulqaedah 1445H"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:alpha="0.7" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -77,155 +99,197 @@
             android:id="@+id/card_zone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="#4D000000"
             app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#4D000000">
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:id="@+id/ll_zone_selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="12dp">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <ImageView
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:src="@drawable/ic_location"
-                    android:layout_marginEnd="6dp" />
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="6dp"
+                    android:src="@drawable/ic_location" />
 
                 <TextView
                     android:id="@+id/tv_zone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:maxLines="1"
                     android:text="Kuala Lumpur, WP Kuala Lumpur"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:maxLines="1"
-                    app:autoSizeTextType="uniform"
+                    android:textSize="13sp"
+                    app:autoSizeMaxTextSize="13sp"
                     app:autoSizeMinTextSize="9sp"
-                    app:autoSizeMaxTextSize="14sp"
-                    app:autoSizeStepGranularity="1sp" />
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=" ▾"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_prayer_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginHorizontal="16dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="0dp"
-        app:cardBackgroundColor="#4D000000">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_prayer_times"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="8dp"
-            android:clipToPadding="false" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
-        app:cardBackgroundColor="#4D000000">
-
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_timer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="#4D000000"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:padding="12dp">
 
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Seterusnya: "
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_next_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Syuruk"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:alpha="0.65"
+                        android:text="Seterusnya"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/tv_next_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:text="Isyak"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_next_time"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:alpha="0.7"
+                        android:text="7:09 PM"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tv_next_countdown"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="2j 38m 45s lagi"
+                    android:layout_marginTop="2dp"
+                    android:fontFeatureSettings="tnum"
+                    android:gravity="center"
+                    android:letterSpacing="0.02"
+                    android:maxLines="1"
+                    android:text="0:07:43"
                     android:textColor="#FFFFFF"
-                    android:textSize="14sp"
-                    android:layout_marginStart="8dp" />
+                    android:textSize="34sp"
+                    android:textStyle="bold"
+                    app:autoSizeMaxTextSize="34sp"
+                    app:autoSizeMinTextSize="22sp"
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
+
+                <ProgressBar
+                    android:id="@+id/progress_next"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="8dp"
+                    android:max="100"
+                    android:progressDrawable="@drawable/progress_green" />
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <ProgressBar
-                android:id="@+id/progress_next"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_marginTop="8dp"
-                android:progressDrawable="@drawable/progress_green"
-                android:max="100" />
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_prayer_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="#4D000000"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp">
 
-            <TextView
-                android:id="@+id/tv_quran_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="Sesungguhnya solat itu adalah kewajipan yang ditentukan waktunya ke atas orang-orang yang beriman."
-                android:textColor="#FFFFFF"
-                android:textSize="13sp"
-                android:gravity="center"
-                android:lineSpacingExtra="2dp"
-                app:autoSizeTextType="uniform"
-                app:autoSizeMinTextSize="10sp"
-                app:autoSizeMaxTextSize="13sp"
-                app:autoSizeStepGranularity="1sp" />
-
-            <TextView
-                android:id="@+id/tv_quran_ref"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_prayer_times"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="– Surah An-Nisa', 4:103"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:gravity="center"
-                android:alpha="0.7" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:padding="8dp"
+                android:clipToPadding="false" />
+        </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_verse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            app:cardBackgroundColor="#4D000000"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp">
 
-</LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/tv_quran_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:text="Sesungguhnya solat itu adalah kewajipan yang ditentukan waktunya ke atas orang-orang yang beriman."
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    app:autoSizeMaxTextSize="11sp"
+                    app:autoSizeMinTextSize="9sp"
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/tv_quran_ref"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:alpha="0.7"
+                    android:gravity="center"
+                    android:text="– Surah An-Nisa', 4:103"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
