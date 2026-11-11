@@ -4,6 +4,15 @@ All notable changes to **Waktu Solat** are documented here.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- Azan volume slider in *Tetapan* (0–100 %, with a **Uji Azan** preview button); the setting scales the azan independently of the phone's alarm volume
+
+### Fixed
+- Long azan playback could not be stopped: the player was never assigned to the service field, so the notification's *Tutup* action and service teardown had no effect
+- Azan players are now released when playback completes instead of lingering until the service is killed
+
 ## [1.0.0] - 2026-10-29
 
 First public release of Waktu Solat — a prayer-times companion for Malaysia, built natively for Android in Bahasa Melayu.

@@ -3,8 +3,11 @@ package com.example.waktusolat
 import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.media.AudioManager
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +38,7 @@ class TetapanFragment : Fragment() {
         currentThemeIndex = themePrefs.getInt(ThemeConfig.PREFS_THEME_INDEX, 0)
 
         setupThemeRotateButton()
+        setupAzanVolume()
 
         val viewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         viewModel.currentThemeIndex.observe(viewLifecycleOwner) { applyThemeColors(it) }
@@ -46,28 +50,27 @@ class TetapanFragment : Fragment() {
         val primaryColor = ThemeHelper.getPrimaryTextColor(themeIndex)
         val secondaryColor = ThemeHelper.getSecondaryTextColor(themeIndex)
         val dividerColor = ThemeHelper.getDividerColor(themeIndex)
+        val accentColor = ThemeConfig.themes[themeIndex.coerceIn(0, ThemeConfig.themes.size - 1)].accent
 
-        for (i in 0 until binding.llSettings.childCount) {
-            val child = binding.llSettings.getChildAt(i)
-            when (child) {
-                is TextView -> {
-                    if (child.id == R.id.btn_protect) {
-                        child.setTextColor(primaryColor)
-                    } else if (i == binding.llSettings.childCount - 1) {
-                        child.setTextColor(secondaryColor)
-                    } else if (i == binding.llSettings.childCount - 2) {
-                        child.setTextColor(secondaryColor)
-                    } else {
-                        child.setTextColor(primaryColor)
-                    }
-                }
-                is View -> {
-                    if (child.height <= 2 && child.background == null) {
-                        child.setBackgroundColor(dividerColor)
-                    }
-                }
-            }
-        }
+        binding.tvThemeTitle.setTextColor(primaryColor)
+        binding.btnRotateTheme.setTextColor(Color.WHITE)
+        binding.tvVolumeTitle.setTextColor(primaryColor)
+        binding.tvAzanVolumeValue.setTextColor(secondaryColor)
+        binding.tvVolumeMuted.setTextColor(secondaryColor)
+        binding.tvVolumeFull.setTextColor(secondaryColor)
+        binding.btnTestAzan.setTextColor(primaryColor)
+        binding.btnProtect.setTextColor(primaryColor)
+        binding.tvProtectSubtitle.setTextColor(secondaryColor)
+        binding.tvCredit.setTextColor(secondaryColor)
+
+        binding.dividerMain.setBackgroundColor(dividerColor)
+        binding.dividerFooter.setBackgroundColor(dividerColor)
+
+        val accentTint = ColorStateList.valueOf(accentColor)
+        binding.sliderAzanVolume.trackTintList = accentTint
+        binding.sliderAzanVolume.trackInactiveTintList = ColorStateList.valueOf(0x66FFFFFF)
+        binding.sliderAzanVolume.thumbTintList = accentTint
+        binding.sliderAzanVolume.haloTintList = ColorStateList.valueOf((accentColor and 0x00FFFFFF) or 0x33000000)
     }
 
     private fun setupThemeRotateButton() {
@@ -91,6 +94,73 @@ class TetapanFragment : Fragment() {
             setColor(theme.accent)
         }
         binding.btnRotateTheme.background = bg
+    }
+
+    private fun setupAzanVolume() {
+        val prefs = requireContext().getSharedPreferences("prefs", android.content.Context.MODE_PRIVATE)
+        val saved = Math.round(prefs.getFloat(PrayerNotificationHelper.PREFS_AZAN_VOLUME, 1f) * 100f)
+        val initial = (saved / 5) * 5
+
+        binding.sliderAzanVolume.value = initial.toFloat().coerceIn(0f, 100f)
+        updateAzanVolumeLabel(initial)
+
+        binding.sliderAzanVolume.addOnChangeListener { _, value, _ ->
+            val rounded = Math.round(value / 5f) * 5
+            prefs.edit()
+                .putFloat(PrayerNotificationHelper.PREFS_AZAN_VOLUME, rounded / 100f)
+                .apply()
+            updateAzanVolumeLabel(rounded)
+        }
+
+        binding.btnTestAzan.setOnClickListener { playAzanPreview() }
+    }
+
+    private fun updateAzanVolumeLabel(value: Int) {
+        binding.tvAzanVolumeValue.text = when {
+            value <= 0 -> "Senyap"
+            value >= 100 -> "100%"
+            else -> "$value%"
+        }
+    }
+
+    private var previewPlayer: MediaPlayer? = null
+
+    private fun playAzanPreview() {
+        stopAzanPreview()
+        val context = requireContext()
+        try {
+            val file = PrayerNotificationHelper.getAzanFile(context, PrayerNotificationHelper.AZAN_PENDEK_FILENAME)
+            val player = if (file != null && file.exists()) {
+                MediaPlayer().apply {
+                    @Suppress("DEPRECATION")
+                    setAudioStreamType(AudioManager.STREAM_ALARM)
+                    setDataSource(file.absolutePath)
+                    prepare()
+                }
+            } else {
+                val resId = resources.getIdentifier("azan_mekah_short", "raw", context.packageName)
+                if (resId != 0) MediaPlayer.create(context, resId) else null
+            } ?: return
+
+            PrayerNotificationHelper.applyAzanVolume(context, player)
+            player.setOnCompletionListener { stopAzanPreview() }
+            player.setOnErrorListener { _, _, _ -> stopAzanPreview(); true }
+            previewPlayer = player
+            player.start()
+        } catch (_: Exception) {
+            stopAzanPreview()
+        }
+    }
+
+    private fun stopAzanPreview() {
+        previewPlayer?.let { player ->
+            try {
+                if (player.isPlaying) player.stop()
+            } catch (_: Exception) {
+            }
+            player.release()
+        }
+        previewPlayer = null
     }
 
     private fun showProtectAppDialog() {
@@ -201,7 +271,13 @@ class TetapanFragment : Fragment() {
         context.sendBroadcast(intent)
     }
 
+    override fun onPause() {
+        super.onPause()
+        stopAzanPreview()
+    }
+
     override fun onDestroyView() {
+        stopAzanPreview()
         super.onDestroyView()
         _binding = null
     }

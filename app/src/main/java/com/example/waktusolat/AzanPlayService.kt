@@ -133,9 +133,11 @@ class AzanPlayService : Service() {
                 val uri = Uri.parse(customUriStr)
                 mp = MediaPlayer.create(this, uri)
                 mp?.apply {
+                    mediaPlayer = this
                     setAudioStreamType(AudioManager.STREAM_ALARM)
-                    setOnCompletionListener { stopSelf() }
-                    setOnErrorListener { _, _, _ -> stopSelf(); true }
+                    PrayerNotificationHelper.applyAzanVolume(this@AzanPlayService, this)
+                    setOnCompletionListener { stopPlayback() }
+                    setOnErrorListener { _, _, _ -> stopPlayback(); true }
                     start()
                 } ?: stopSelf()
                 return
@@ -144,11 +146,13 @@ class AzanPlayService : Service() {
             val file = PrayerNotificationHelper.getAzanFile(this, PrayerNotificationHelper.AZAN_PANJANG_FILENAME)
             if (file != null && file.exists()) {
                 mp = MediaPlayer().apply {
+                    mediaPlayer = this
                     setAudioStreamType(AudioManager.STREAM_ALARM)
+                    PrayerNotificationHelper.applyAzanVolume(this@AzanPlayService, this)
                     setDataSource(file.absolutePath)
                     setOnPreparedListener { start() }
-                    setOnCompletionListener { stopSelf() }
-                    setOnErrorListener { _, _, _ -> stopSelf(); true }
+                    setOnCompletionListener { stopPlayback() }
+                    setOnErrorListener { _, _, _ -> stopPlayback(); true }
                     prepareAsync()
                 }
                 return
@@ -157,22 +161,27 @@ class AzanPlayService : Service() {
             val resId = resources.getIdentifier("azan_makkah", "raw", packageName)
             if (resId != 0) {
                 mp = MediaPlayer.create(this, resId).apply {
+                    mediaPlayer = this
                     setAudioStreamType(AudioManager.STREAM_ALARM)
-                    setOnCompletionListener { stopSelf() }
-                    setOnErrorListener { _, _, _ -> stopSelf(); true }
+                    PrayerNotificationHelper.applyAzanVolume(this@AzanPlayService, this)
+                    setOnCompletionListener { stopPlayback() }
+                    setOnErrorListener { _, _, _ -> stopPlayback(); true }
                     start()
                 }
                 return
             }
 
             mp = MediaPlayer.create(this, RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)).apply {
+                mediaPlayer = this
                 setAudioStreamType(AudioManager.STREAM_ALARM)
-                setOnCompletionListener { stopSelf() }
-                setOnErrorListener { _, _, _ -> stopSelf(); true }
+                PrayerNotificationHelper.applyAzanVolume(this@AzanPlayService, this)
+                setOnCompletionListener { stopPlayback() }
+                setOnErrorListener { _, _, _ -> stopPlayback(); true }
                 start()
             }
         } catch (e: Exception) {
             mp?.release()
+            mediaPlayer = null
             stopSelf()
         }
     }

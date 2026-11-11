@@ -29,6 +29,7 @@ object PrayerNotificationHelper {
     const val PREFS_NOTIFICATION = "notification_enabled"
     const val PREFS_AZAN_TYPE = "azan_type"
     const val PREFS_CUSTOM_AZAN_URI = "custom_azan_uri"
+    const val PREFS_AZAN_VOLUME = "azan_volume"
     const val NOTIFICATION_ID_AZAN_SERVICE = 1001
     const val AZAN_MEKAH_URL = "https://www.islamcan.com/audio/adhan/azan-makkah.mp3"
     const val AZAN_DIR = "waktu solat"
@@ -45,6 +46,17 @@ object PrayerNotificationHelper {
 
     fun getMuteKey(prayerName: String): String =
         "mute_${prayerName.lowercase()}"
+
+    /** Azan gain between 0f and 1f, multiplied with the phone's alarm-stream volume. */
+    fun getAzanVolume(context: Context): Float =
+        context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+            .getFloat(PREFS_AZAN_VOLUME, 1f)
+            .coerceIn(0f, 1f)
+
+    fun applyAzanVolume(context: Context, player: MediaPlayer) {
+        val volume = getAzanVolume(context)
+        player.setVolume(volume, volume)
+    }
 
     fun migrateOldSettings(prefs: android.content.SharedPreferences) {
         if (prefs.contains(PREFS_AZAN_TYPE)) {
@@ -230,6 +242,7 @@ object PrayerNotificationHelper {
                 }
                 
                 mp?.apply {
+                    applyAzanVolume(context, this)
                     setOnCompletionListener { 
                         release()
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

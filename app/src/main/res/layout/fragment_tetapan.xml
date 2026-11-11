@@ -12,6 +12,7 @@
         android:padding="24dp">
 
         <TextView
+            android:id="@+id/tv_theme_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tema"
@@ -37,7 +38,83 @@
             app:autoSizeMaxTextSize="14sp"
             app:autoSizeStepGranularity="1sp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_volume_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Volum Azan"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_azan_volume_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.85"
+                android:text="100%"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/slider_azan_volume"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:stepSize="5"
+            android:value="100"
+            android:valueFrom="0"
+            android:valueTo="100" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_volume_muted"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.55"
+                android:text="Senyap"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/tv_volume_full"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.55"
+                android:text="Penuh"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_test_azan"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Uji Azan"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="13sp"
+            app:rippleColor="#33FFFFFF"
+            app:strokeColor="#66FFFFFF" />
+
         <View
+            android:id="@+id/divider_main"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="20dp"
@@ -61,6 +138,7 @@
             app:autoSizeStepGranularity="1sp" />
 
         <TextView
+            android:id="@+id/tv_protect_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Elakkan aplikasi diberhentikan oleh sistem"
@@ -74,6 +152,7 @@
             app:autoSizeStepGranularity="1sp" />
 
         <View
+            android:id="@+id/divider_footer"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
@@ -81,6 +160,7 @@
             android:background="#4DFFFFFF" />
 
         <TextView
+            android:id="@+id/tv_credit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Created By REZREN"
